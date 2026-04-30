@@ -13,6 +13,10 @@ class Settings(BaseSettings):
     # JWT secret — change this to a long random string in production
     secret_key: str = "change-me-to-a-long-random-secret-key-in-production"
 
+    # Admin credentials — set in .env, no defaults in code
+    admin_username: str = ""
+    admin_password: str = ""
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"

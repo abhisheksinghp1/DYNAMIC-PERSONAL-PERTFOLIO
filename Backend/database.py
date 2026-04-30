@@ -69,13 +69,17 @@ async def init_db():
 
         await db.commit()
 
-        # ── Seed default admin (username: admin, password: admin123) ──
+        # ── Seed admin from .env (ADMIN_USERNAME / ADMIN_PASSWORD) ───
         import hashlib
-        pw_hash = hashlib.sha256("admin123".encode()).hexdigest()
-        await db.execute(
-            "INSERT OR IGNORE INTO admin (username, password_hash) VALUES (?, ?)",
-            ("admin", pw_hash)
-        )
+        from config import settings as _s
+        admin_user = _s.admin_username.strip()
+        admin_pass = _s.admin_password.strip()
+        if admin_user and admin_pass:
+            pw_hash = hashlib.sha256(admin_pass.encode()).hexdigest()
+            await db.execute(
+                "INSERT OR IGNORE INTO admin (username, password_hash) VALUES (?, ?)",
+                (admin_user, pw_hash)
+            )
 
         # ── Seed default skill categories & skills ────────────────────
         categories = [
