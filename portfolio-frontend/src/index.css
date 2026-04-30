@@ -1,0 +1,89 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ── Dark mode (default) ─────────────────────────────────────────────── */
+:root,
+[data-theme='dark'] {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #0f0f1a;
+  --bg-card: #13131f;
+  --bg-card-hover: #1a1a2e;
+  --accent: #6c63ff;
+  --accent-2: #ff6584;
+  --accent-3: #43e97b;
+  --text-primary: #f0f0ff;
+  --text-secondary: #9090b0;
+  --text-muted: #5a5a7a;
+  --border: rgba(108, 99, 255, 0.15);
+  --border-hover: rgba(108, 99, 255, 0.4);
+  --glow: rgba(108, 99, 255, 0.3);
+  --font-mono: 'Fira Code', monospace;
+  --font-sans: 'Inter', sans-serif;
+  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+
+/* ── Light mode ──────────────────────────────────────────────────────── */
+[data-theme='light'] {
+  --bg-primary: #f5f5ff;
+  --bg-secondary: #eeeeff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f0f0ff;
+  --accent: #5b52e8;
+  --accent-2: #e8456b;
+  --accent-3: #1db954;
+  --text-primary: #111128;
+  --text-secondary: #44446a;
+  --text-muted: #8888aa;
+  --border: rgba(91, 82, 232, 0.15);
+  --border-hover: rgba(91, 82, 232, 0.4);
+  --glow: rgba(91, 82, 232, 0.15);
+  --font-mono: 'Fira Code', monospace;
+  --font-sans: 'Inter', sans-serif;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+
+img {
+  max-width: 100%;
+}
