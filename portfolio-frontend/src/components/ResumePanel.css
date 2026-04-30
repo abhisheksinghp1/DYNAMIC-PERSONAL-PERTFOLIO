@@ -1,0 +1,115 @@
+.resume-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  z-index: 2500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.resume-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-hover);
+  border-radius: 20px;
+  padding: 36px 32px 28px;
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.panel-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.panel-close:hover {
+  background: rgba(255,255,255,0.12);
+  color: var(--text-primary);
+}
+
+.panel-icon { font-size: 2.5rem; margin-bottom: 12px; }
+
+.resume-panel h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+
+.panel-sub {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.resume-status {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.resume-status.uploaded {
+  background: rgba(67,233,123,0.08);
+  border: 1px solid rgba(67,233,123,0.25);
+  color: #43e97b;
+}
+
+.resume-status.empty {
+  background: rgba(255,101,132,0.08);
+  border: 1px solid rgba(255,101,132,0.2);
+  color: #ff6584;
+}
+
+.resume-date {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  font-family: var(--font-mono);
+}
+
+.panel-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 20px;
+  background: rgba(255,101,132,0.08);
+  color: #ff6584;
+  border: 1px solid rgba(255,101,132,0.25);
+  border-radius: 50px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: all 0.2s;
+}
+
+.btn-danger:hover {
+  background: rgba(255,101,132,0.18);
+  border-color: #ff6584;
+}

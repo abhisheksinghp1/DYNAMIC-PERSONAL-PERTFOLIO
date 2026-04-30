@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     owner_email: str = "aps11102003@gmail.com"
     send_confirmation_to_sender: bool = True
 
+    # JWT secret — change this to a long random string in production
+    secret_key: str = "change-me-to-a-long-random-secret-key-in-production"
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"

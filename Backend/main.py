@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from routers import contact
+from routers import auth as auth_router
+from routers import skills as skills_router
+from routers import resume as resume_router
 from database import init_db
 
 
@@ -14,7 +17,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Abhishek Pratap Singh — Portfolio API",
-    version="1.0.0",
+    version="2.0.0",
     lifespan=lifespan,
 )
 
@@ -25,9 +28,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(contact.router, prefix="/api/contact", tags=["Contact"])
+app.include_router(contact.router,      prefix="/api/contact", tags=["Contact"])
+app.include_router(auth_router.router,  prefix="/api/auth",    tags=["Auth"])
+app.include_router(skills_router.router,prefix="/api/skills",  tags=["Skills"])
+app.include_router(resume_router.router,prefix="/api/resume",  tags=["Resume"])
 
 
 @app.get("/")
 async def root():
-    return {"status": "ok", "message": "Portfolio API running"}
+    return {"status": "ok", "message": "Portfolio API v2 running"}

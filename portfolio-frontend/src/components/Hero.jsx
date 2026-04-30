@@ -3,6 +3,7 @@ import { TypeAnimation } from 'react-type-animation'
 import { motion } from 'framer-motion'
 import { Link } from 'react-scroll'
 import { personalInfo } from '../data/portfolio'
+import ResumeUpload from './ResumeUpload'
 import './Hero.css'
 
 export default function Hero() {
@@ -99,6 +100,7 @@ export default function Hero() {
                 Get In Touch
               </button>
             </Link>
+            <ResumeUpload />
           </motion.div>
 
           {/* Social links */}
