@@ -87,8 +87,8 @@ function SkillRow({ skill, color, catId, onUpdated, onDeleted, isAdmin, authFetc
               <span className="skill-pct">{skill.level}%</span>
               {isAdmin && (
                 <div className="skill-admin-btns">
-                  <button className="skill-edit-btn" onClick={() => setEditing(true)} title="Edit">✏️</button>
-                  <button className="skill-del-btn"  onClick={del}                    title="Delete">🗑</button>
+                  <button className="skill-edit-btn" onClick={() => setEditing(true)} title="Edit skill">✏️</button>
+                  <button className="skill-del-btn"  onClick={del} title="Delete skill">🗑️</button>
                 </div>
               )}
             </div>

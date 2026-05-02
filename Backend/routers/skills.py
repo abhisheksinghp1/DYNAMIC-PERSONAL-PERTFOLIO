@@ -13,11 +13,14 @@ Admin only:
   DELETE /api/skills/{skill_id}             → delete skill
 """
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from models import CategoryIn, CategoryOut, SkillIn, SkillOut
-from database import get_db
+from database import get_db, SKILL_IMAGES_DIR
 from routers.auth import require_admin
 import aiosqlite
+import uuid
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
 
 router = APIRouter()
 
@@ -31,7 +34,7 @@ async def _get_categories(db: aiosqlite.Connection) -> list[dict]:
     for cat in cats:
         cat = dict(cat)
         skills = await (await db.execute(
-            "SELECT id, name, level, sort_order FROM skills WHERE category_id=? ORDER BY sort_order, id",
+            "SELECT id, name, level, sort_order, image_url FROM skills WHERE category_id=? ORDER BY sort_order, id",
             (cat["id"],)
         )).fetchall()
         cat["skills"] = [dict(s) for s in skills]
@@ -131,7 +134,7 @@ async def add_skill(
     )
     await db.commit()
     row = await (await db.execute(
-        "SELECT id, name, level, sort_order FROM skills WHERE id=?", (cursor.lastrowid,)
+        "SELECT id, name, level, sort_order, image_url FROM skills WHERE id=?", (cursor.lastrowid,)
     )).fetchone()
     return dict(row)
 
@@ -155,7 +158,7 @@ async def update_skill(
     )
     await db.commit()
     row = await (await db.execute(
-        "SELECT id, name, level, sort_order FROM skills WHERE id=?", (skill_id,)
+        "SELECT id, name, level, sort_order, image_url FROM skills WHERE id=?", (skill_id,)
     )).fetchone()
     return dict(row)
 
@@ -172,4 +175,62 @@ async def delete_skill(
     if not row:
         raise HTTPException(status_code=404, detail="Skill not found")
     await db.execute("DELETE FROM skills WHERE id=?", (skill_id,))
+    await db.commit()
+
+
+# ── skill image upload (admin) ────────────────────────────────────────────────
+@router.post("/{skill_id}/image", response_model=SkillOut)
+async def upload_skill_image(
+    skill_id: int,
+    file: UploadFile = File(...),
+    db: aiosqlite.Connection = Depends(get_db),
+    _: str = Depends(require_admin),
+):
+    row = await (await db.execute(
+        "SELECT id FROM skills WHERE id=?", (skill_id,)
+    )).fetchone()
+    if not row:
+        raise HTTPException(status_code=404, detail="Skill not found")
+
+    ext = Path(file.filename or "").suffix.lower()
+    if ext not in {".jpg", ".jpeg", ".png", ".webp", ".svg", ".gif"}:
+        raise HTTPException(status_code=400, detail="Image must be JPG, PNG, WebP, SVG or GIF")
+
+    contents = await file.read()
+    if len(contents) > 5 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="Image too large (max 5 MB)")
+
+    stored_name = f"skill_{skill_id}_{uuid.uuid4()}{ext}"
+    (SKILL_IMAGES_DIR / stored_name).write_bytes(contents)
+
+    image_url = f"/uploads/skill_images/{stored_name}"
+    await db.execute("UPDATE skills SET image_url=? WHERE id=?", (image_url, skill_id))
+    await db.commit()
+
+    updated = await (await db.execute(
+        "SELECT id, name, level, sort_order, image_url FROM skills WHERE id=?", (skill_id,)
+    )).fetchone()
+    return dict(updated)
+
+
+# ── remove skill image (admin) ────────────────────────────────────────────────
+@router.delete("/{skill_id}/image", status_code=204)
+async def remove_skill_image(
+    skill_id: int,
+    db: aiosqlite.Connection = Depends(get_db),
+    _: str = Depends(require_admin),
+):
+    row = await (await db.execute(
+        "SELECT image_url FROM skills WHERE id=?", (skill_id,)
+    )).fetchone()
+    if not row:
+        raise HTTPException(status_code=404, detail="Skill not found")
+
+    if row["image_url"]:
+        fname = Path(row["image_url"]).name
+        fpath = SKILL_IMAGES_DIR / fname
+        if fpath.exists():
+            fpath.unlink()
+
+    await db.execute("UPDATE skills SET image_url='' WHERE id=?", (skill_id,))
     await db.commit()

@@ -1,0 +1,9 @@
+.hero-media-section {
+  padding: 60px 0;
+  background: var(--bg-secondary);
+}
+
+.hero-media-grid {
+  max-width: 600px;
+  margin: 0 auto;
+}

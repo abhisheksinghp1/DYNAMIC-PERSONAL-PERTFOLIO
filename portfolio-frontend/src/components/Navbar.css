@@ -319,3 +319,40 @@
   background: rgba(108,99,255,0.2);
   border-color: var(--accent);
 }
+
+/* ── Vault button (admin only) ───────────────────────────────────────── */
+.admin-vault-btn {
+  background: rgba(67, 233, 123, 0.08);
+  border: 1px solid rgba(67, 233, 123, 0.25);
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #43e97b;
+  transition: all 0.2s;
+  font-family: var(--font-sans);
+  white-space: nowrap;
+}
+
+.admin-vault-btn:hover {
+  background: rgba(67, 233, 123, 0.15);
+  border-color: #43e97b;
+}
+
+/* ── Change password button ──────────────────────────────────────────── */
+.admin-changepw-btn {
+  background: rgba(108,99,255,0.08);
+  border: 1px solid rgba(108,99,255,0.25);
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--accent);
+  transition: all 0.2s;
+}
+
+.admin-changepw-btn:hover {
+  background: rgba(108,99,255,0.18);
+  border-color: var(--accent);
+}

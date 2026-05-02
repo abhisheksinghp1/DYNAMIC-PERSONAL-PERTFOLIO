@@ -1,22 +1,34 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-scroll'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
 import { useAdmin } from '../context/AdminContext'
 import AdminLogin from '../pages/AdminLogin'
 import ResumePanel from './ResumePanel'
+import ChangePassword from './ChangePassword'
 import './Navbar.css'
 
-const API = 'http://localhost:8000'
-const links = ['Home', 'About', 'Skills', 'Projects', 'Contact']
+const API = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
+const links = [
+  { label: 'Home',            path: '/' },
+  { label: 'About',           path: '/about' },
+  { label: 'Skills',          path: '/skills' },
+  { label: 'Projects',        path: '/projects' },
+  { label: 'Certifications',  path: '/certifications' },
+  { label: 'Resume',          path: '/resume' },
+  { label: 'Contact',         path: '/contact' },
+]
 
 export default function Navbar() {
-  const [scrolled, setScrolled]       = useState(false)
-  const [menuOpen, setMenuOpen]       = useState(false)
-  const [showLogin, setShowLogin]     = useState(false)
-  const [showResume, setShowResume]   = useState(false)
-  const { dark, toggle }              = useTheme()
-  const { isAdmin, logout }           = useAdmin()
+  const [scrolled, setScrolled]     = useState(false)
+  const [menuOpen, setMenuOpen]     = useState(false)
+  const [showLogin, setShowLogin]       = useState(false)
+  const [showResume, setShowResume]     = useState(false)
+  const [showChangePw, setShowChangePw] = useState(false)
+  const { dark, toggle }            = useTheme()
+  const { isAdmin, logout }         = useAdmin()
+  const navigate                    = useNavigate()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -46,21 +58,24 @@ export default function Navbar() {
     <>
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="nav-inner">
-          <div className="nav-logo">
+
+          {/* Logo */}
+          <div className="nav-logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
             <span className="logo-bracket">&lt;</span>APS<span className="logo-bracket">/&gt;</span>
           </div>
 
+          {/* Nav links */}
           <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
             {links.map(link => (
-              <li key={link}>
-                <Link
-                  to={link.toLowerCase()}
-                  smooth duration={600} offset={-80}
-                  spy activeClass="active"
+              <li key={link.path}>
+                <NavLink
+                  to={link.path}
+                  end={link.path === '/'}
+                  className={({ isActive }) => isActive ? 'active' : ''}
                   onClick={() => setMenuOpen(false)}
                 >
-                  {link}
-                </Link>
+                  {link.label}
+                </NavLink>
               </li>
             ))}
           </ul>
@@ -69,7 +84,7 @@ export default function Navbar() {
             {/* Dark/Light toggle */}
             <button
               className="theme-toggle"
-              onClick={toggle}
+              onClick={(e) => toggle(e)}
               aria-label="Toggle dark mode"
               title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
             >
@@ -80,33 +95,45 @@ export default function Navbar() {
               </span>
             </button>
 
-            {/* Admin: resume manager button */}
+            {/* Admin: resume manager */}
+            {isAdmin && (
+              <button className="admin-resume-btn" onClick={() => setShowResume(true)} title="Manage Resume">
+                📄 Resume
+              </button>
+            )}
+
+            {/* Admin: document vault link */}
             {isAdmin && (
               <button
-                className="admin-resume-btn"
-                onClick={() => setShowResume(true)}
-                title="Manage Resume"
+                className="admin-vault-btn"
+                onClick={() => navigate('/vault')}
+                title="Private Document Vault"
               >
-                📄 Resume
+                🔐 Vault
               </button>
             )}
 
             {/* Admin login / logout */}
             {isAdmin ? (
-              <button className="admin-logout-btn" onClick={logout} title="Logout admin">
-                🔓 Logout
-              </button>
+              <>
+                <button
+                  className="admin-changepw-btn"
+                  onClick={() => setShowChangePw(true)}
+                  title="Change Password"
+                >
+                  🔑
+                </button>
+                <button className="admin-logout-btn" onClick={logout} title="Logout admin">
+                  🔓 Logout
+                </button>
+              </>
             ) : (
-              <button
-                className="admin-login-btn"
-                onClick={() => setShowLogin(true)}
-                title="Admin login"
-              >
+              <button className="admin-login-btn" onClick={() => setShowLogin(true)} title="Admin login">
                 🔐
               </button>
             )}
 
-            {/* Hire Me — downloads resume */}
+            {/* Hire Me */}
             <button className="nav-cta" onClick={handleHireMe}>
               Hire Me ↓
             </button>
@@ -121,7 +148,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Admin mode banner */}
+        {/* Admin banner */}
         {isAdmin && (
           <div className="admin-banner">
             🔐 Admin Mode — edit skills, projects &amp; upload resume
@@ -129,10 +156,10 @@ export default function Navbar() {
         )}
       </nav>
 
-      {/* Modals */}
       <AnimatePresence>
-        {showLogin  && <AdminLogin   onClose={() => setShowLogin(false)}  />}
-        {showResume && <ResumePanel  onClose={() => setShowResume(false)} />}
+        {showLogin    && <AdminLogin     onClose={() => setShowLogin(false)}    />}
+        {showResume   && <ResumePanel    onClose={() => setShowResume(false)}   />}
+        {showChangePw && <ChangePassword onClose={() => setShowChangePw(false)} />}
       </AnimatePresence>
     </>
   )

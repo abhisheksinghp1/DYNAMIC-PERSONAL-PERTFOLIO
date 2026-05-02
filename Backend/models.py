@@ -47,6 +47,7 @@ class SkillOut(BaseModel):
     name: str
     level: int
     sort_order: int
+    image_url: Optional[str] = ""
 
 
 class CategoryIn(BaseModel):

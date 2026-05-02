@@ -1,0 +1,316 @@
+.about-cards-section { padding: 0 0 40px; }
+
+/* ── Toolbar ─────────────────────────────────────────────────────────── */
+.cards-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding: 12px 18px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+/* ── Grid ────────────────────────────────────────────────────────────── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.reorder-item {
+  list-style: none;
+  cursor: grab;
+}
+
+.reorder-item:active { cursor: grabbing; }
+
+/* ── Card ────────────────────────────────────────────────────────────── */
+.about-card {
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease;
+}
+
+.about-card.dragging {
+  cursor: grabbing;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+}
+
+.card-accent {
+  height: 4px;
+  width: 100%;
+}
+
+.card-body {
+  padding: 24px;
+  position: relative;
+}
+
+/* ── Animated emoji ──────────────────────────────────────────────────── */
+.card-emoji {
+  font-size: 2.8rem;
+  margin-bottom: 16px;
+  display: inline-block;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--card-color, var(--accent));
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.card-content {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+/* ── Admin controls ──────────────────────────────────────────────────── */
+.card-admin-btns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.card-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 5px 9px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.card-btn.edit:hover  { background: rgba(108,99,255,0.1); border-color: var(--accent); }
+.card-btn.delete:hover{ background: rgba(255,101,132,0.1); border-color: #ff6584; }
+
+.drag-handle {
+  margin-left: auto;
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  cursor: grab;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: color 0.2s;
+  user-select: none;
+}
+
+.drag-handle:hover { color: var(--accent); }
+
+/* ── Modal overlay ───────────────────────────────────────────────────── */
+.card-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  z-index: 2500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.card-modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border-hover);
+  border-radius: 20px;
+  max-width: 520px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.card-modal-accent { height: 4px; }
+
+.modal-close-btn {
+  position: absolute;
+  top: 14px; right: 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 1;
+}
+
+.modal-close-btn:hover {
+  background: rgba(255,255,255,0.12);
+  color: var(--text-primary);
+}
+
+.modal-preview-emoji {
+  font-size: 3rem;
+  padding: 20px 24px 0;
+  display: block;
+}
+
+.card-modal h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 8px 24px 0;
+  color: var(--text-primary);
+}
+
+/* ── Form ────────────────────────────────────────────────────────────── */
+.card-form {
+  padding: 16px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-field input,
+.form-field textarea {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-family: var(--font-sans);
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(108,99,255,0.15);
+}
+
+/* Emoji picker */
+.emoji-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.emoji-btn {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-primary);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emoji-btn:hover,
+.emoji-btn.selected {
+  border-color: var(--accent);
+  background: rgba(108,99,255,0.12);
+  transform: scale(1.15);
+}
+
+/* Color picker */
+.color-picker-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.color-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.color-dot:hover,
+.color-dot.selected {
+  border-color: var(--text-primary);
+  transform: scale(1.25);
+}
+
+/* Modal actions */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+/* Confirm modal */
+.confirm-modal {
+  max-width: 340px;
+  padding: 36px 28px;
+  text-align: center;
+}
+
+.confirm-emoji { font-size: 2.5rem; margin-bottom: 12px; }
+.confirm-modal h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+.confirm-modal p  { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
+.confirm-modal .modal-actions { justify-content: center; border-top: none; padding-top: 0; }
+
+/* Danger button */
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: rgba(255,101,132,0.1);
+  color: #ff6584;
+  border: 1px solid rgba(255,101,132,0.3);
+  border-radius: 50px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: all 0.2s;
+}
+
+.btn-danger:hover {
+  background: rgba(255,101,132,0.2);
+  border-color: #ff6584;
+}
+
+.cards-loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .cards-grid { grid-template-columns: 1fr; }
+}

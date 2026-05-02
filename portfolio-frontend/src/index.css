@@ -4,6 +4,51 @@
   box-sizing: border-box;
 }
 
+/* ── Smooth theme transition (fallback for browsers without View Transitions) */
+*,
+*::before,
+*::after {
+  transition:
+    background-color 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+    color 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+    fill 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Interactive elements keep snappy transform/opacity */
+button, a, .glow-card, .nav-links li a, .btn-primary, .btn-outline {
+  transition:
+    background-color 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+    color 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.25s ease;
+}
+
+/* ── View Transitions API — slow premium circular ripple wipe ────────── */
+::view-transition-old(root) {
+  animation: none;
+}
+
+::view-transition-new(root) {
+  clip-path: circle(0% at var(--ripple-x, 50%) var(--ripple-y, 50%));
+  animation: theme-ripple 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes theme-ripple {
+  0%   {
+    clip-path: circle(0% at var(--ripple-x, 50%) var(--ripple-y, 50%));
+    opacity: 0;
+  }
+  15%  { opacity: 1; }
+  100% {
+    clip-path: circle(var(--ripple-r, 150%) at var(--ripple-x, 50%) var(--ripple-y, 50%));
+    opacity: 1;
+  }
+}
+
 /* ── Dark mode (default) ─────────────────────────────────────────────── */
 :root,
 [data-theme='dark'] {

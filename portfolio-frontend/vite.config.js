@@ -5,5 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
+    // Redirect all 404s to index.html for client-side routing
+    historyApiFallback: true,
   },
 })

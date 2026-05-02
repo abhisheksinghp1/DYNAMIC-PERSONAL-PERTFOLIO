@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useAdmin } from '../context/AdminContext'
+import ForgotPassword from '../components/ForgotPassword'
 import toast from 'react-hot-toast'
 import './AdminLogin.css'
 
 export default function AdminLogin({ onClose }) {
   const { login } = useAdmin()
-  const [form, setForm]       = useState({ username: '', password: '' })
-  const [loading, setLoading] = useState(false)
-  const [error, setError]     = useState('')
+  const [form, setForm]           = useState({ username: '', password: '' })
+  const [loading, setLoading]     = useState(false)
+  const [error, setError]         = useState('')
+  const [showForgot, setShowForgot] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -26,82 +28,99 @@ export default function AdminLogin({ onClose }) {
   }
 
   return (
-    <motion.div
-      className="login-overlay"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-    >
+    <>
       <motion.div
-        className="login-card"
-        initial={{ scale: 0.85, opacity: 0, y: 40 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.85, opacity: 0, y: 40 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-        onClick={e => e.stopPropagation()}
+        className="login-overlay"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
       >
-        <div className="login-header">
-          <div className="login-icon">🔐</div>
-          <h2>Admin Login</h2>
-          <p>Sign in to manage your portfolio content</p>
-        </div>
-
-        <form className="login-form" onSubmit={handleSubmit} noValidate>
-          <div className="login-field">
-            <label htmlFor="username">Username</label>
-            <input
-              id="username"
-              type="text"
-              placeholder="admin"
-              value={form.username}
-              onChange={e => setForm(f => ({ ...f, username: e.target.value }))}
-              autoComplete="username"
-              autoFocus
-            />
+        <motion.div
+          className="login-card"
+          initial={{ scale: 0.85, opacity: 0, y: 40 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.85, opacity: 0, y: 40 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+          onClick={e => e.stopPropagation()}
+        >
+          <div className="login-header">
+            <div className="login-icon">🔐</div>
+            <h2>Admin Login</h2>
+            <p>Sign in to manage your portfolio content</p>
           </div>
 
-          <div className="login-field">
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              value={form.password}
-              onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
-              autoComplete="current-password"
-            />
-          </div>
+          <form className="login-form" onSubmit={handleSubmit} noValidate>
+            <div className="login-field">
+              <label htmlFor="username">Username</label>
+              <input
+                id="username"
+                type="text"
+                placeholder="admin"
+                value={form.username}
+                onChange={e => setForm(f => ({ ...f, username: e.target.value }))}
+                autoComplete="username"
+                autoFocus
+              />
+            </div>
 
-          {error && (
-            <motion.div
-              className="login-error"
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              ⚠️ {error}
-            </motion.div>
-          )}
+            <div className="login-field">
+              <div className="login-field-header">
+                <label htmlFor="password">Password</label>
+                <button
+                  type="button"
+                  className="forgot-pw-link"
+                  onClick={() => setShowForgot(true)}
+                >
+                  Forgot Password?
+                </button>
+              </div>
+              <input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={form.password}
+                onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
+                autoComplete="current-password"
+              />
+            </div>
 
-          <button
-            type="submit"
-            className="btn-primary login-btn"
-            disabled={loading}
-          >
-            {loading ? (
-              <><span className="spinner" /> Signing in…</>
-            ) : (
-              'Sign In →'
+            {error && (
+              <motion.div
+                className="login-error"
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                ⚠️ {error}
+              </motion.div>
             )}
-          </button>
-        </form>
 
-        <p className="login-hint">
-          Default: <code>admin</code> / <code>admin123</code>
-        </p>
+            <button
+              type="submit"
+              className="btn-primary login-btn"
+              disabled={loading}
+            >
+              {loading ? (
+                <><span className="spinner" /> Signing in…</>
+              ) : (
+                'Sign In →'
+              )}
+            </button>
+          </form>
 
-        <button className="login-close" onClick={onClose} aria-label="Close">✕</button>
+          <button className="login-close" onClick={onClose} aria-label="Close">✕</button>
+        </motion.div>
       </motion.div>
-    </motion.div>
+
+      {/* Forgot Password modal */}
+      <AnimatePresence>
+        {showForgot && (
+          <ForgotPassword
+            onClose={() => setShowForgot(false)}
+            onBackToLogin={() => setShowForgot(false)}
+          />
+        )}
+      </AnimatePresence>
+    </>
   )
 }

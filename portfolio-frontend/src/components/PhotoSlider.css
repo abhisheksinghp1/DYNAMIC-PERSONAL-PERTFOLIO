@@ -1,0 +1,241 @@
+.photo-slider-section {
+  background: var(--bg-secondary);
+  padding: 80px 0 60px;
+}
+
+/* ── Admin upload bar ────────────────────────────────────────────────── */
+.slider-admin-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.slider-upload-btns {
+  display: flex;
+  gap: 10px;
+}
+
+/* ── Empty state ─────────────────────────────────────────────────────── */
+.slider-empty {
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: 16px;
+  margin: 24px;
+}
+
+.slider-empty span { font-size: 3rem; display: block; margin-bottom: 12px; }
+.slider-empty p    { font-size: 0.95rem; }
+
+/* ── Slider wrapper — contained with max-width ───────────────────────── */
+.slider-wrapper {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ── Card ────────────────────────────────────────────────────────────── */
+.slider-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  aspect-ratio: 16 / 9;
+}
+
+/* ── Slide ───────────────────────────────────────────────────────────── */
+.slider-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.slider-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Video type badge ────────────────────────────────────────────────── */
+.slide-type-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.15);
+  z-index: 10;
+  letter-spacing: 0.5px;
+}
+
+/* ── Caption ─────────────────────────────────────────────────────────── */
+.slider-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 24px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.75));
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* ── Admin delete on slide ───────────────────────────────────────────── */
+.slide-delete-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0,0,0,0.55);
+  border: 1px solid rgba(255,101,132,0.4);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #ff6584;
+  transition: all 0.2s;
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+.slide-delete-btn:hover {
+  background: rgba(255,101,132,0.25);
+  border-color: #ff6584;
+  transform: scale(1.1);
+}
+
+/* ── Arrows ──────────────────────────────────────────────────────────── */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  backdrop-filter: blur(4px);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider-arrow.left  { left: 20px; }
+.slider-arrow.right { right: 20px; }
+
+.slider-arrow:hover {
+  background: rgba(108,99,255,0.65);
+  border-color: var(--accent);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* ── Dots ────────────────────────────────────────────────────────────── */
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 0 4px;
+}
+
+.slider-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border);
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s;
+  padding: 0;
+}
+
+.slider-dot.active {
+  background: var(--accent);
+  transform: scale(1.35);
+  box-shadow: 0 0 8px var(--glow);
+}
+
+/* Video dots get a triangle indicator */
+.slider-dot.video-dot {
+  border-radius: 3px;
+}
+
+.slider-dot.video-dot.active {
+  background: #ff6584;
+  box-shadow: 0 0 8px rgba(255,101,132,0.5);
+}
+
+/* ── Counter ─────────────────────────────────────────────────────────── */
+.slider-counter {
+  text-align: center;
+  padding-bottom: 12px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.counter-type {
+  color: #ff6584;
+}
+
+/* ── Confirm modal ───────────────────────────────────────────────────── */
+.slider-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(6px);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.slider-confirm-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-hover);
+  border-radius: 16px;
+  padding: 36px 28px;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.slider-confirm-card div { font-size: 2.5rem; margin-bottom: 12px; }
+.slider-confirm-card h3  { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+.slider-confirm-card p   { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
+
+.confirm-btns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .slider-card { aspect-ratio: 4 / 3; }
+  .slider-arrow { width: 38px; height: 38px; font-size: 1.4rem; }
+  .slider-arrow.left  { left: 10px; }
+  .slider-arrow.right { right: 10px; }
+}

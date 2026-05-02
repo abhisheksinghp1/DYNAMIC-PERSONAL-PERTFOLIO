@@ -145,3 +145,25 @@
   background: rgba(255,255,255,0.12);
   color: var(--text-primary);
 }
+
+/* ── Forgot password link ────────────────────────────────────────────── */
+.login-field-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0;
+}
+
+.forgot-pw-link {
+  background: none;
+  border: none;
+  color: #ff6584;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: opacity 0.2s;
+  padding: 0;
+}
+
+.forgot-pw-link:hover { opacity: 0.75; }
