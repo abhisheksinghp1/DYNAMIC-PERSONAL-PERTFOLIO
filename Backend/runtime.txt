@@ -1,8 +1,1 @@
-pip
-setuptools
-wheel
-fastapi==0.110.0
-uvicorn==0.27.1
-pydantic==2.6.4
-pydantic-core==2.16.3
-python-dotenv
+python-3.11.9
