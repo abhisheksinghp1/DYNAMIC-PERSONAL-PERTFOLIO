@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
@@ -32,14 +33,17 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+_extra_origin = os.getenv("FRONTEND_URL", "")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
         "http://localhost:5173",
-        # Add your Vercel URL here after deploying:
-        # "https://your-portfolio.vercel.app",
-        "*",  # Remove this line in production and use specific origins above
+        # Your Vercel frontend URL — set FRONTEND_URL env var on Render
+        *([_extra_origin] if _extra_origin else []),
+        # Fallback wildcard — remove once FRONTEND_URL is set on Render
+        "*",
     ],
     allow_methods=["*"],
     allow_headers=["*"],
