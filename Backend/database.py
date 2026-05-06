@@ -1,20 +1,25 @@
+import os
 import aiosqlite
 from pathlib import Path
 
-DB_PATH  = Path(__file__).parent / "portfolio.db"
-UPLOAD_DIR = Path(__file__).parent / "uploads"
-UPLOAD_DIR.mkdir(exist_ok=True)
-DOCS_DIR = UPLOAD_DIR / "documents"
+# If DATA_DIR is set (e.g. Render persistent disk at /data), use it.
+# Otherwise fall back to the local Backend/ folder (dev mode).
+_BASE = Path(os.getenv("DATA_DIR", str(Path(__file__).parent)))
+
+DB_PATH      = _BASE / "portfolio.db"
+UPLOAD_DIR   = _BASE / "uploads"
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+DOCS_DIR     = UPLOAD_DIR / "documents"
 DOCS_DIR.mkdir(exist_ok=True)
-GALLERY_DIR = UPLOAD_DIR / "gallery"
+GALLERY_DIR  = UPLOAD_DIR / "gallery"
 GALLERY_DIR.mkdir(exist_ok=True)
 RESUME_MEDIA_DIR = UPLOAD_DIR / "resume_media"
 RESUME_MEDIA_DIR.mkdir(exist_ok=True)
 SKILL_IMAGES_DIR = UPLOAD_DIR / "skill_images"
 SKILL_IMAGES_DIR.mkdir(exist_ok=True)
-HERO_VIDEO_DIR = UPLOAD_DIR / "hero_video"
+HERO_VIDEO_DIR   = UPLOAD_DIR / "hero_video"
 HERO_VIDEO_DIR.mkdir(exist_ok=True)
-CERT_DIR = UPLOAD_DIR / "certifications"
+CERT_DIR     = UPLOAD_DIR / "certifications"
 CERT_DIR.mkdir(exist_ok=True)
 
 

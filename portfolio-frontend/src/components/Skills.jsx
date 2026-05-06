@@ -5,7 +5,7 @@ import { useAdmin } from '../context/AdminContext'
 import toast from 'react-hot-toast'
 import './Skills.css'
 
-const API = 'http://localhost:8000'
+const API = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 const COLORS = ['#6c63ff','#43e97b','#ff6584','#f7971e','#a18cd1','#38b2ac','#ed64a6','#667eea']
 const ICONS  = ['⚙️','🚀','🗄️','🌐','🤖','🛡️','📦','🔧','💡','🎯']
 

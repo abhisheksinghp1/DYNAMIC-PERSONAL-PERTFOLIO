@@ -5,6 +5,8 @@ import toast from 'react-hot-toast'
 import { personalInfo } from '../data/portfolio'
 import './Contact.css'
 
+const API = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
 /* ── Chat message bubble ─────────────────────────────────────────────── */
 function ChatBubble({ msg, isOwn }) {
   return (
@@ -113,7 +115,7 @@ export default function Contact() {
     setShowTyping(true)
 
     try {
-      const res = await fetch('http://localhost:8000/api/contact/send', {
+      const res = await fetch(`${API}/api/contact/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

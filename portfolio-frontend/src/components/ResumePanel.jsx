@@ -4,7 +4,7 @@ import { useAdmin } from '../context/AdminContext'
 import toast from 'react-hot-toast'
 import './ResumePanel.css'
 
-const API = 'http://localhost:8000'
+const API = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 export default function ResumePanel({ onClose }) {
   const { authFetch } = useAdmin()
